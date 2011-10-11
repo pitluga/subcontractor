@@ -1,0 +1,3 @@
+module Subcontractor
+  # Your code goes here...
+end

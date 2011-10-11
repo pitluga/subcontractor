@@ -1,0 +1,2 @@
+webapp: ruby -I ../lib ../bin/subcontract --rvm ruby-1.8.7-p249@subcontractor-webapp --chdir webapp -- bundle exec thin --rackup config.ru start
+sleepy: ruby -I ../lib ../bin/subcontract --chdir script -- ruby sleepy.rb
