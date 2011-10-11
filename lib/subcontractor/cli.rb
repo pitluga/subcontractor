@@ -37,6 +37,7 @@ module Subcontractor
     def parse_options(argv)
       options = {}
       parser = OptionParser.new do |opt|
+        opt.banner = "USAGE: subcontract [options] -- executable"
         opt.on('-r', '--rvm RVM', 'run in a specific RVM') do |rvm|
           options[:rvm] = rvm
         end
