@@ -20,18 +20,19 @@ The gem provides an executable called ```subcontract``` that you will use from y
 
 ```
 USAGE: subcontract [options] -- executable
-    -r, --rvm RVM                    run in a specific RVM                 
-    -d, --chdir PATH                 chdir to PATH before starting process 
+    -r, --rvm RVM                    run in a specific RVM
+    -d, --chdir PATH                 chdir to PATH before starting process
+    -s, --signal SIGNAL              signal to send to process to kill it, default TERM
 ```
 
 An example Procfile tells the story
 
 ```
 rails: rails s
-another_app: subcontract --rvm ruby-1.8.7-p249@another_app --chdir ../another_app -- rails s -p 3001
+another_app: subcontract --rvm ruby-1.8.7-p249@another_app --chdir ../another_app --signal INT -- rails s -p 3001
 ```
 
-Here another_app will be launch from the sibling directory another_app and will use the rvm ruby-1.8.7-p249@another_app. 
+Here another_app will be launch from the sibling directory another_app and will use the rvm ruby-1.8.7-p249@another_app. As you can see, the command that we wish to use to launch our application follows the double dashes (--).
 
 ### Contributions
 * Fork the project

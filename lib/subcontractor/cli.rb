@@ -8,9 +8,10 @@ module Subcontractor
       options = parse_options(ARGV)
       command = build_command(ARGV.dup, options)
       Dir.chdir(options[:chdir]) if options[:chdir]
+      signal = options[:signal] || "TERM"
       PTY.spawn(command) do |stdin, stdout, pid|
         trap("TERM") do
-          options.has_key?(:rvm) ? kill_term(*child_pids(pid)) : kill_term(pid)
+          options.has_key?(:rvm) ? send_kill(signal, *child_pids(pid)) : send_kill(signal, pid)
         end
         until stdin.eof?
           puts stdin.gets
@@ -18,8 +19,8 @@ module Subcontractor
       end
     end
 
-    def kill_term(*pids)
-      pids.each { |pid| Process.kill("SIGTERM", pid) }
+    def send_kill(signal, *pids)
+      pids.each { |pid| Process.kill(signal, pid) }
     end
 
     def child_pids(pid)
@@ -43,6 +44,9 @@ module Subcontractor
         end
         opt.on('-d', '--chdir PATH', 'chdir to PATH before starting process') do |path|
           options[:chdir] = path
+        end
+        opt.on('-s', '--signal SIGNAL', 'signal to send to process to kill it, default TERM') do |signal|
+          options[:signal] = signal
         end
       end
 
