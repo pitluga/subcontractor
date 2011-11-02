@@ -25,9 +25,10 @@ module Subcontractor
 
     def child_pids(pid)
       lines = `ps axo pid,ppid`
-      lines.map(&:split).select do |(child_pid, parent_pid)|
+      child_pids = lines.map(&:split).select do |(child_pid, parent_pid)|
         parent_pid == pid.to_s
       end.map(&:first).map(&:to_i)
+      child_pids + [pid]
     end
 
     def build_command(parts, options)
