@@ -34,6 +34,13 @@ another_app: subcontract --rvm ruby-1.8.7-p249@another_app --chdir ../another_ap
 
 Here another_app will be launch from the sibling directory another_app and will use the rvm ruby-1.8.7-p249@another_app. As you can see, the command that we wish to use to launch our application follows the double dashes (--).
 
+You can also allow another_app to use its existing .rvmrc file
+
+```
+rails: rails s
+another_app: subcontract --rvm "--with-rubies rvmrc" --chdir ../another_app --signal INT -- rails s -p 3001
+```
+
 ### Contributions
 * Fork the project
 * Make your change
