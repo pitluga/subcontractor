@@ -49,4 +49,5 @@ another_app: subcontract --rvm "--with-rubies rvmrc" --chdir ../another_app --si
 
 ### Contributors
 * Tony Pitluga [github](http://github.com/pitluga) [blog](http://tony.pitluga.com/) [twitter](http://twitter.com/pitluga)
+* Drew Olson [github](http://github.com/drewolson) [blog](http://fingernailsinoatmeal.com/) [twitter](http://twitter.com/drewolson)
 * Paul Gross [github](http://github.com/pgr0ss) [blog](http://www.pgrs.net) [twitter](http://twitter.com/pgr0ss)
