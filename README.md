@@ -48,4 +48,5 @@ another_app: subcontract --rvm "--with-rubies rvmrc" --chdir ../another_app --si
 * Send a pull request (bonus points for feature branches)
 
 ### Contributors
-* Tony Pitluga [github](http://github.com/pitluga) [twitter](http://twitter.com/pitluga)
+* Tony Pitluga [github](http://github.com/pitluga) [blog](http://tony.pitluga.com/) [twitter](http://twitter.com/pitluga)
+* Paul Gross [github](http://github.com/pgr0ss) [blog](http://www.pgrs.net) [twitter](http://twitter.com/pgr0ss)
