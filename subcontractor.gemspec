@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Tony Pitluga"]
   s.email       = ["tony.pitluga@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/pitluga/subcontractor"
   s.summary     = %q{rvm aware process launcher for foreman}
   s.description = %q{rvm aware process launcher for foreman}
 
