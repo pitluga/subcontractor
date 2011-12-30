@@ -1,3 +1,4 @@
 thin: ruby -I ../lib ../bin/subcontract --rvm ruby-1.8.7-p249@subcontractor-webapp --chdir webapp --signal INT -- bundle exec rackup config.ru -p 3001
 webrick: ruby -I ../lib ../bin/subcontract --rvm ruby-1.8.7-p249@subcontractor-webapp --chdir webapp --signal INT -- bundle exec thin --rackup config.ru -p 3002 start
 sleepy: ruby -I ../lib ../bin/subcontract --chdir script -- ruby sleepy.rb
+slanger: ruby -I ../lib ../bin/subcontract --chdir slanger --rvm ruby-1.9.2@slanger -- bundle exec slanger --app_key xxx --secret xxx -w 0.0.0.0:8081

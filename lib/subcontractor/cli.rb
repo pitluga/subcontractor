@@ -11,7 +11,7 @@ module Subcontractor
       signal = options[:signal] || "TERM"
       PTY.spawn(command) do |stdin, stdout, pid|
         trap("TERM") do
-          options.has_key?(:rvm) ? send_kill(signal, *child_pids(pid)) : send_kill(signal, pid)
+          send_kill(signal, find_pids_to_kill(pid))
         end
         until stdin.eof?
           puts stdin.gets
@@ -19,16 +19,24 @@ module Subcontractor
       end
     end
 
-    def send_kill(signal, *pids)
+    def send_kill(signal, pids)
       pids.each { |pid| Process.kill(signal, pid) }
     end
 
-    def child_pids(pid)
+    def find_pids_to_kill(*pids_to_investigate)
+      pids_to_kill = pids_to_investigate
+      begin
+        pids_to_investigate = find_child_pids(pids_to_investigate)
+        pids_to_kill = pids_to_investigate + pids_to_kill
+      end until pids_to_investigate.empty?
+      pids_to_kill
+    end
+
+    def find_child_pids(pids)
       lines = `ps axo pid,ppid`
       child_pids = lines.map(&:split).select do |(child_pid, parent_pid)|
-        parent_pid == pid.to_s
+        pids.include?(parent_pid.to_i)
       end.map(&:first).map(&:to_i)
-      child_pids + [pid]
     end
 
     def build_command(parts, options)
