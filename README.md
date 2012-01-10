@@ -13,7 +13,7 @@ gem install subcontractor
 or with bundler
 
 ```ruby
-gem 'subcontractor', '0.1.0'
+gem 'subcontractor', '0.3.0'
 ```
 
 The gem provides an executable called ```subcontract``` that you will use from your Procfile. You can see what it does by running ```subcontract --help```
