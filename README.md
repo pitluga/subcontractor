@@ -41,6 +41,12 @@ rails: rails s
 another_app: subcontract --rvm "--with-rubies rvmrc" --chdir ../another_app --signal INT -- rails s -p 3001
 ```
 
+Newer versions of RVM use a slightly different syntax for referencing the app .rvmrc file.
+
+```
+new_rvm_app: push: subcontract --rvm --with-rubies default-with-rvmrc do --chdir ../push --signal INT -- bundle exec rails server
+```
+
 ### Contributions
 * Fork the project
 * Make your change
