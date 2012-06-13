@@ -13,6 +13,9 @@ module Subcontractor
         trap("TERM") do
           send_kill(signal, find_pids_to_kill(pid))
         end
+        trap("INT") do
+          send_kill(signal, find_pids_to_kill(pid))
+        end
         until stdin.eof?
           puts stdin.gets
         end
