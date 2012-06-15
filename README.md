@@ -20,7 +20,7 @@ The gem provides an executable called ```subcontract``` that you will use from y
 
 ```
 USAGE: subcontract [options] -- executable
-    -r, --rvm RVM                    run in a specific RVM
+    -r, --rvm RVM                    run in a specific RVM (use `.` for ruby from `PATH`)
     -d, --chdir PATH                 chdir to PATH before starting process
     -s, --signal SIGNAL              signal to send to process to kill it, default TERM
 ```
