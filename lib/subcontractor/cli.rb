@@ -36,7 +36,7 @@ module Subcontractor
     end
 
     def find_child_pids(pids)
-      lines = `ps axo pid,ppid`
+      lines = `ps axo pid,ppid`.lines
       child_pids = lines.map(&:split).select do |(child_pid, parent_pid)|
         pids.include?(parent_pid.to_i)
       end.map(&:first).map(&:to_i)
