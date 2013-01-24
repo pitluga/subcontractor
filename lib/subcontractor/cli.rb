@@ -23,6 +23,7 @@ module Subcontractor
     def run
       options = parse_options(ARGV)
       command = build_command(ARGV.dup, options)
+      puts command
       Dir.chdir(options[:chdir]) if options[:chdir]
       signal = options[:signal] || "TERM"
       SafePty.spawn(command) do |stdin, stdout, pid|
