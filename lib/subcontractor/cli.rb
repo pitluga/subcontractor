@@ -1,6 +1,22 @@
 require 'optparse'
 require 'pty'
 
+module SafePty
+  def self.spawn command, &block
+
+    PTY.spawn(command) do |r,w,p|
+      begin
+        yield r,w,p
+      rescue Errno::EIO
+      ensure
+        Process.wait p
+      end
+    end
+
+    $?.exitstatus
+  end
+end
+
 module Subcontractor
   class CLI
 
@@ -9,7 +25,7 @@ module Subcontractor
       command = build_command(ARGV.dup, options)
       Dir.chdir(options[:chdir]) if options[:chdir]
       signal = options[:signal] || "TERM"
-      PTY.spawn(command) do |stdin, stdout, pid|
+      SafePty.spawn(command) do |stdin, stdout, pid|
         trap("TERM") do
           send_kill(signal, find_pids_to_kill(pid))
         end
