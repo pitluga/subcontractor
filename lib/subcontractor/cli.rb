@@ -1,6 +1,8 @@
 require 'optparse'
 require 'pty'
 
+$stdout.sync = true
+
 module SafePty
   def self.spawn command, &block
 
