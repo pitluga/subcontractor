@@ -57,3 +57,4 @@ new_rvm_app: push: subcontract --rvm --with-rubies default-with-rvmrc do --chdir
 * Tony Pitluga [github](http://github.com/pitluga) [blog](http://tony.pitluga.com/) [twitter](http://twitter.com/pitluga)
 * Drew Olson [github](http://github.com/drewolson) [blog](http://fingernailsinoatmeal.com/) [twitter](http://twitter.com/drewolson)
 * Paul Gross [github](http://github.com/pgr0ss) [blog](http://www.pgrs.net) [twitter](http://twitter.com/pgr0ss)
+* Rune Skjoldborg Madsen [github](https://github.com/runemadsen)
