@@ -1,6 +1,9 @@
 require 'optparse'
 require 'pty'
 
+# make foreman show logs right away
+$stdout.sync = true
+
 module SafePty
   def self.spawn command, &block
 
