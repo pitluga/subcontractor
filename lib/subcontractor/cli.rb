@@ -36,6 +36,21 @@ module Subcontractor
       command = build_command(ARGV.dup, options)
       Dir.chdir(options[:chdir]) if options[:chdir]
       signal = options[:signal] || "TERM"
+      execute(command, options, signal)
+    end
+
+    def execute(command, options, signal)
+      if defined?(Bundler)
+        Bundler.with_clean_env do
+          clear_env(options)
+          spawn(command, signal)
+        end
+      else
+        spawn(command, signal)
+      end
+    end
+
+    def spawn(command, signal)
       SafePty.spawn(command) do |stdin, stdout, pid|
         trap("TERM") do
           send_kill(signal, find_pids_to_kill(pid))
@@ -71,6 +86,7 @@ module Subcontractor
 
     def build_command(parts, options)
       parts.unshift("rvm #{options[:rvm]} exec") if options.has_key?(:rvm)
+      parts.unshift("env RBENV_VERSION=#{options[:rbenv]} rbenv exec") if options.has_key?(:rbenv)
       parts.join(' ')
     end
 
@@ -80,6 +96,9 @@ module Subcontractor
         opt.banner = "USAGE: subcontract [options] -- executable"
         opt.on('-r', '--rvm RVM', 'run in a specific RVM') do |rvm|
           options[:rvm] = rvm
+        end
+        opt.on('-b', '--rbenv RBENV', 'run in a specific RBENV') do |rbenv|
+          options[:rbenv] = rbenv
         end
         opt.on('-d', '--chdir PATH', 'chdir to PATH before starting process') do |path|
           options[:chdir] = path
@@ -91,6 +110,12 @@ module Subcontractor
 
       parser.parse! argv
       options
+    end
+
+    def clear_env(options)
+      envs = ['GEM_HOME', 'GEM_PATH', 'RUBYOPT']
+      envs.push('RBENV_DIR') if options[:rbenv]
+      envs.each { |e| ENV.delete(e) }
     end
 
   end
