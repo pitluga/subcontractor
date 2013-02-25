@@ -5,7 +5,16 @@ $stdout.sync = true
 
 module SafePty
   def self.spawn command, &block
+    if Object.const_defined?('Bundler')
+      Bundler.with_clean_env do
+        self.spawn_internal command, &block
+      end
+    else
+      self.spawn_internal command, &block
+    end
+  end
 
+  def self.spawn_internal command, &block
     PTY.spawn(command) do |r,w,p|
       begin
         yield r,w,p
