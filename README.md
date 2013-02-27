@@ -1,3 +1,8 @@
+### Notice
+
+I'm looking for a new maintainer for this project. I have not been a good steward and it seems to be useful to people. Any takers?
+
+
 ### Overview
 
 [Foreman](https://github.com/ddollar/foreman) is a gem released by Heroku that allows you to easily manage multiple processes with a Procfile. It ensures all processes launch successfully, colorizes output, and allows you to kill all processes with a simple CTL+C. It's simple and elegant.
