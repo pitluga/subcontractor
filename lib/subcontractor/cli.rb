@@ -7,6 +7,7 @@ module SafePty
   def self.spawn command, &block
     if Object.const_defined?('Bundler')
       Bundler.with_clean_env do
+        self.clear_more_env
         self.spawn_internal command, &block
       end
     else
@@ -26,6 +27,10 @@ module SafePty
 
     $?.exitstatus
   end
+
+  def self.clear_more_env
+    ['GEM_HOME', 'GEM_PATH', 'RUBYOPT', 'RBENV_DIR'].each { |e| ENV.delete(e) }
+  end
 end
 
 module Subcontractor
@@ -36,21 +41,6 @@ module Subcontractor
       command = build_command(ARGV.dup, options)
       Dir.chdir(options[:chdir]) if options[:chdir]
       signal = options[:signal] || "TERM"
-      execute(command, options, signal)
-    end
-
-    def execute(command, options, signal)
-      if defined?(Bundler)
-        Bundler.with_clean_env do
-          clear_env(options)
-          spawn(command, signal)
-        end
-      else
-        spawn(command, signal)
-      end
-    end
-
-    def spawn(command, signal)
       SafePty.spawn(command) do |stdin, stdout, pid|
         trap("TERM") do
           send_kill(signal, find_pids_to_kill(pid))
@@ -110,12 +100,6 @@ module Subcontractor
 
       parser.parse! argv
       options
-    end
-
-    def clear_env(options)
-      envs = ['GEM_HOME', 'GEM_PATH', 'RUBYOPT']
-      envs.push('RBENV_DIR') if options[:rbenv]
-      envs.each { |e| ENV.delete(e) }
     end
 
   end
