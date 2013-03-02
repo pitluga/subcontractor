@@ -7,6 +7,7 @@ module SafePty
   def self.spawn command, &block
     if Object.const_defined?('Bundler')
       Bundler.with_clean_env do
+        self.clear_more_env
         self.spawn_internal command, &block
       end
     else
@@ -25,6 +26,10 @@ module SafePty
     end
 
     $?.exitstatus
+  end
+
+  def self.clear_more_env
+    ['GEM_HOME', 'GEM_PATH', 'RUBYOPT', 'RBENV_DIR'].each { |e| ENV.delete(e) }
   end
 end
 
@@ -71,6 +76,7 @@ module Subcontractor
 
     def build_command(parts, options)
       parts.unshift("rvm #{options[:rvm]} exec") if options.has_key?(:rvm)
+      parts.unshift("env RBENV_VERSION=#{options[:rbenv]} rbenv exec") if options.has_key?(:rbenv)
       parts.join(' ')
     end
 
@@ -80,6 +86,9 @@ module Subcontractor
         opt.banner = "USAGE: subcontract [options] -- executable"
         opt.on('-r', '--rvm RVM', 'run in a specific RVM') do |rvm|
           options[:rvm] = rvm
+        end
+        opt.on('-b', '--rbenv RBENV', 'run in a specific RBENV') do |rbenv|
+          options[:rbenv] = rbenv
         end
         opt.on('-d', '--chdir PATH', 'chdir to PATH before starting process') do |path|
           options[:chdir] = path
