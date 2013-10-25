@@ -1,11 +1,12 @@
-require 'optparse'
-require 'pty'
+require "optparse"
+require "pty"
+require "subcontractor/command"
 
 $stdout.sync = true
 
 module SafePty
   def self.spawn command, &block
-    if Object.const_defined?('Bundler')
+    if Object.const_defined?("Bundler")
       Bundler.with_clean_env do
         self.clear_more_env
         self.spawn_internal command, &block
@@ -29,16 +30,15 @@ module SafePty
   end
 
   def self.clear_more_env
-    ['GEM_HOME', 'GEM_PATH', 'RUBYOPT', 'RBENV_DIR'].each { |e| ENV.delete(e) }
+    ["GEM_HOME", "GEM_PATH", "RUBYOPT", "RBENV_DIR"].each { |e| ENV.delete(e) }
   end
 end
 
 module Subcontractor
   class CLI
-
     def run
       options = parse_options(ARGV)
-      command = build_command(ARGV.dup, options)
+      command = Subcontractor::Command.build(ARGV, options)
       Dir.chdir(options[:chdir]) if options[:chdir]
       signal = options[:signal] || "TERM"
       SafePty.spawn(command) do |stdin, stdout, pid|
@@ -74,26 +74,23 @@ module Subcontractor
       end.map(&:first).map(&:to_i)
     end
 
-    def build_command(parts, options)
-      parts.unshift("rvm #{options[:rvm]} exec") if options.has_key?(:rvm)
-      parts.unshift("env RBENV_VERSION=#{options[:rbenv]} rbenv exec") if options.has_key?(:rbenv)
-      parts.join(' ')
-    end
-
     def parse_options(argv)
       options = {}
       parser = OptionParser.new do |opt|
         opt.banner = "USAGE: subcontract [options] -- executable"
-        opt.on('-r', '--rvm RVM', 'run in a specific RVM') do |rvm|
+        opt.on("-r", "--rvm RVM", "run in a specific RVM") do |rvm|
           options[:rvm] = rvm
         end
-        opt.on('-b', '--rbenv RBENV', 'run in a specific RBENV') do |rbenv|
+        opt.on("-b", "--rbenv RBENV", "run in a specific RBENV") do |rbenv|
           options[:rbenv] = rbenv
         end
-        opt.on('-d', '--chdir PATH', 'chdir to PATH before starting process') do |path|
+        opt.on("-c", "--choose-env ENV", "run in either specified RBENV or RVM, whichever is present") do |env|
+          options[:choose_env] = env
+        end
+        opt.on("-d", "--chdir PATH", "chdir to PATH before starting process") do |path|
           options[:chdir] = path
         end
-        opt.on('-s', '--signal SIGNAL', 'signal to send to process to kill it, default TERM') do |signal|
+        opt.on("-s", "--signal SIGNAL", "signal to send to process to kill it, default TERM") do |signal|
           options[:signal] = signal
         end
       end
@@ -101,6 +98,5 @@ module Subcontractor
       parser.parse! argv
       options
     end
-
   end
 end

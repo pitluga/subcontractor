@@ -26,7 +26,8 @@ The gem provides an executable called ```subcontract``` that you will use from y
 ```
 USAGE: subcontract [options] -- executable
     -r, --rvm RVM                    run in a specific RVM (use `.` for ruby from `PATH`)
-    -b, --rbenv RBENV                run in a specific RBENV
+    -b, --rbenv RBENV                run in a specific RBENV (use `.` for local rbenv)
+    -c, --choose-env ENV             run in either a specified RBENV or RVM, whichever is present
     -d, --chdir PATH                 chdir to PATH before starting process
     -s, --signal SIGNAL              signal to send to process to kill it, default TERM
 ```
@@ -53,6 +54,19 @@ You can use specific rbenv version.
 rbenv_app: bundle exec subcontract --rbenv 'ree-1.8.7-2012.02' --chdir ~/rbenv_app -- bundle exec rails server -p 3001
 ```
 
+Or you can use whatever the local rbenv settings are for a project. This will load whatever `rbenv local` returns out of the current folder once it has been changed to the folder specified by --chdir
+
+```
+rbenv_app: bundle exec subcontract --rbenv . --chdir ~/rbenv_app -- bundle exec rails server -p 3001
+```
+
+If you have team members using both rvm and rbenv on a project then use --choose-env to use whatever version manager is present on the system. If both are present rbenv is chosen.
+
+```
+mixed_env_manager_app: bundle exec subcontract --choose-env . --chdir ~/mixed_env_manager_app -- bundle exec rails server -p 3001
+```
+
+
 ### Contributions
 * Fork the project
 * Make your change
@@ -65,3 +79,4 @@ rbenv_app: bundle exec subcontract --rbenv 'ree-1.8.7-2012.02' --chdir ~/rbenv_a
 * Paul Gross [github](http://github.com/pgr0ss) [blog](http://www.pgrs.net) [twitter](http://twitter.com/pgr0ss)
 * Rune Skjoldborg Madsen [github](https://github.com/runemadsen)
 * Masahiro Ihara [github](http://github.com/ihara2525) [twitter](http://twitter.com/ihara2525)
+* Michael Nussbaum [github](https://github.com/mnussbaum)
