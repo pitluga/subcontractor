@@ -84,7 +84,10 @@ module Subcontractor
         opt.on("-b", "--rbenv RBENV", "run in a specific RBENV") do |rbenv|
           options[:rbenv] = rbenv
         end
-        opt.on("-c", "--choose-env ENV", "run in either specified RBENV or RVM, whichever is present") do |env|
+        opt.on("-h", "--chruby CHRUBY", "run in a specific CHRUBY") do |chruby|
+          options[:chruby] = chruby
+        end
+        opt.on("-c", "--choose-env ENV", "run in either specified RBENV, RVM, or CHRUBY, whichever is present") do |env|
           options[:choose_env] = env
         end
         opt.on("-d", "--chdir PATH", "chdir to PATH before starting process") do |path|

@@ -27,7 +27,8 @@ The gem provides an executable called ```subcontract``` that you will use from y
 USAGE: subcontract [options] -- executable
     -r, --rvm RVM                    run in a specific RVM (use `.` for ruby from `PATH`)
     -b, --rbenv RBENV                run in a specific RBENV (use `.` for local rbenv)
-    -c, --choose-env ENV             run in either a specified RBENV or RVM, whichever is present
+    -h, --chruby CHRUBY              run in a specific CHRUBY
+    -c, --choose-env ENV             run in either a specified RBENV, RVM or CHRUBY, whichever is present
     -d, --chdir PATH                 chdir to PATH before starting process
     -s, --signal SIGNAL              signal to send to process to kill it, default TERM
 ```
