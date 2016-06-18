@@ -26,6 +26,14 @@ describe Subcontractor::CLI do
       end
     end
 
+    context "with --chruby" do
+      it "specifies a rbenv" do
+        ARGV = ["--chruby", "1.9.3", "test"]
+        SafePty.should_receive(:spawn).with("chruby-exec 1.9.3 -- test")
+        Subcontractor::CLI.new.run
+      end
+    end
+
     it "creates a valid command if no environment manager is specifed" do
       ARGV = ["test"]
       SafePty.should_receive(:spawn).with("test")

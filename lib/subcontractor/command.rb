@@ -14,6 +14,8 @@ module Subcontractor
         @parts.unshift("#{_set_rbenv_version} rbenv exec")
       elsif _use_command?(:rvm)
         @parts.unshift("rvm #{_env_specifier(:rvm)} exec")
+      elsif _use_command?(:chruby)
+        @parts.unshift("chruby-exec #{_env_specifier(:chruby)} --")
       end
 
       @parts.join(" ")
