@@ -27,7 +27,7 @@ describe Subcontractor::CLI do
     end
 
     context "with --chruby" do
-      it "specifies a rbenv" do
+      it "specifies a chruby version" do
         ARGV = ["--chruby", "1.9.3", "test"]
         SafePty.should_receive(:spawn).with("chruby-exec 1.9.3 -- test")
         Subcontractor::CLI.new.run
@@ -55,6 +55,16 @@ describe Subcontractor::CLI do
         command = Subcontractor::Command.any_instance
         command.should_receive(:system).with("which rbenv > /dev/null 2>&1").and_return(false)
         command.should_receive(:system).with("which rvm > /dev/null 2>&1").and_return(true)
+        Subcontractor::CLI.new.run
+      end
+
+      it "uses chruby when chruby is present" do
+        ARGV = ["--choose-env", ".", "test"]
+        SafePty.should_receive(:spawn).with("chruby-exec . -- test")
+        command = Subcontractor::Command.any_instance
+        command.should_receive(:system).with("which rbenv > /dev/null 2>&1").and_return(false)
+        command.should_receive(:system).with("which rvm > /dev/null 2>&1").and_return(false)
+        command.should_receive(:system).with("which chruby-exec > /dev/null 2>&1").and_return(true)
         Subcontractor::CLI.new.run
       end
     end
