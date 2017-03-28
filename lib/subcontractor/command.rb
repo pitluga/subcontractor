@@ -26,6 +26,7 @@ module Subcontractor
     end
 
     def _choose_env_and_command_present?(command)
+      command = 'chruby-exec' if command == :chruby
       @options.has_key?(:choose_env) && system("which #{command} > /dev/null 2>&1")
     end
 
