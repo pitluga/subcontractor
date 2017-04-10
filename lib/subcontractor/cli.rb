@@ -4,6 +4,8 @@ require "subcontractor/command"
 
 $stdout.sync = true
 
+$stdout.sync = true
+
 module SafePty
   def self.spawn command, &block
     if Object.const_defined?("Bundler")
