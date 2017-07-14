@@ -76,6 +76,7 @@ module Subcontractor
 
     def parse_options(argv)
       options = {}
+      options[:env] = []
       parser = OptionParser.new do |opt|
         opt.banner = "USAGE: subcontract [options] -- executable"
         opt.on("-r", "--rvm RVM", "run in a specific RVM") do |rvm|
@@ -95,6 +96,9 @@ module Subcontractor
         end
         opt.on("-s", "--signal SIGNAL", "signal to send to process to kill it, default TERM") do |signal|
           options[:signal] = signal
+        end
+        opt.on("-e", "--env VAR=value", "additional environment variable to be set on executable context") do |env|
+          options[:env] << "env #{env}"
         end
       end
 

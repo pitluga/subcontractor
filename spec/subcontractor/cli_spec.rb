@@ -68,5 +68,27 @@ describe Subcontractor::CLI do
         Subcontractor::CLI.new.run
       end
     end
+
+    context "with --env" do
+      it "specifies custom env variable" do
+        ARGV = ["--env", "FOO=bar", "test"]
+        SafePty.should_receive(:spawn).with("env FOO=bar test")
+        Subcontractor::CLI.new.run
+      end
+
+      it "specifies custom env variables if many where passed" do
+        ARGV = ["--env", "FOO=bar", "--env", "BAR=foo", "test"]
+        SafePty.should_receive(:spawn).with("env FOO=bar env BAR=foo test")
+        Subcontractor::CLI.new.run
+      end
+    end
+
+    context "with --env and --rbenv" do
+      it "specifies custom env variables if many where passed" do
+        ARGV = ["--rbenv", "1.9.3", "--env", "FOO=bar", "--env", "BAR=foo", "test"]
+        SafePty.should_receive(:spawn).with("env FOO=bar env BAR=foo env RBENV_VERSION=1.9.3 rbenv exec test")
+        Subcontractor::CLI.new.run
+      end
+    end
   end
 end

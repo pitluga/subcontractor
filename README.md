@@ -31,6 +31,7 @@ USAGE: subcontract [options] -- executable
     -c, --choose-env ENV             run in either a specified RBENV, RVM or CHRUBY, whichever is present
     -d, --chdir PATH                 chdir to PATH before starting process
     -s, --signal SIGNAL              signal to send to process to kill it, default TERM
+    -e, --env VAR=value              additional environment variable to be set on executable context
 ```
 
 An example Procfile tells the story
@@ -65,6 +66,12 @@ If you have team members using both rvm and rbenv on a project then use --choose
 
 ```
 mixed_env_manager_app: bundle exec subcontract --choose-env . --chdir ~/mixed_env_manager_app -- bundle exec rails server -p 3001
+```
+
+You can pass multiple environment variables to be passed along to the executable.
+
+```
+rbenv_app: bundle exec subcontract --rbenv 'ree-1.8.7-2012.02' --chdir ~/rbenv_app --env FOO=bar --env BAR=foo -- bundle exec rails server -p 3001
 ```
 
 
