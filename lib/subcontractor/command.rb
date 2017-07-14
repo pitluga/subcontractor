@@ -18,7 +18,7 @@ module Subcontractor
         @parts.unshift("chruby-exec #{_env_specifier(:chruby)} --")
       end
 
-      @parts.join(" ")
+      (@options[:env] + @parts).join(" ")
     end
 
     def _use_command?(command)
